@@ -1,2 +1,2 @@
 # dailyx_Web
-app_web
+app_web , main app web
