@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -128,21 +128,51 @@
     }
 
     .download-image img {
-  width: 75%;
-  max-width: 500px;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(0.8);
-  animation: popup 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  border-radius: 15px;
-}
+      width: 75%;
+      max-width: 500px;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popup 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      border-radius: 15px;
+    }
 
-@keyframes popup {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+    @keyframes popup {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Footer styles */
+    .footer {
+      background-color: var(--card-bg);
+      color: var(--subtext);
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .footer-nav {
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: var(--button);
+      font-weight: 500;
+    }
+
+    .footer-nav a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -159,7 +189,7 @@
   <section class="download-section">
     <div class="download-text">
       <h1>Download DailyX for a Productivity Run</h1>
-      <p>Achieve yours Goals faster than ever — No distraction, only action.</p>
+      <p>Achieve your goals faster than ever — No distraction, only action.</p>
       <a href="https://drive.google.com/file/d/1hwQG1hsswPe28y9JvtrFVBooD-c-w6Ra/view?usp=drivesdk">
         <button class="download-btn">Download Now</button>
       </a>
@@ -168,5 +198,13 @@
       <img src="assets/half.png" alt="Half Preview of DailyX App">
     </div>
   </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 DailyX. All rights reserved.</p>
+      
+    </div>
+  </footer>
 </body>
 </html>
