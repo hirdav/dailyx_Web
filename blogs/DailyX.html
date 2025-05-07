@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyXBlog[DailyX]</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a1a1a;
+      --accent: #6a0dad;
+      --light-bg: #f4f4f4;
+      --card-bg: #ffffff;
+      --link: #6a0dad;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--primary);
+      line-height: 1.75;
+    }
+    
+    header, footer {
+      background-color: var(--card-bg);
+      padding: 1rem 2rem;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      height: 36px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .content-wrapper {
+      max-width: 900px;
+      margin: 3rem auto;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .blog-image {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+    }
+
+    .blog-header {
+      padding: 2rem 2rem 1rem;
+      text-align: center;
+    }
+
+    .blog-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .blog-body {
+      padding: 1.5rem 2.5rem 2.5rem;
+      font-size: 1.05rem;
+    }
+
+    .blog-body p,
+    .blog-body ul,
+    .blog-body ol {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-body a {
+      color: var(--link);
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding: 1rem 2rem;
+      margin-top: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      .blog-header {
+        padding: 1.5rem 1rem 0.75rem;
+      }
+
+      .blog-body {
+        padding: 1rem 1.25rem 2rem;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <img src="../assets/DailyX.png" alt="DailyX Logo" class="logo" />
+      <nav>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../download.html">Download</a></li>
+          <li><a href="../resources.html">Blogs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <img src="../assets/blog/DailyX.png" alt="Blog Image" class="blog-image" />
+    <div class="blog-header">
+      <h2>In This World of Distraction and Lost Track of Your Activity, DailyX Is There for the Rescue</h2>
+    </div>
+    <div class="blog-body">
+      <!-- Paste blog content here -->
+
+      <p>
+        In the fast-paced digital era we live in, staying focused and aligned with our goals has never been harder.
+        Notifications, endless scrolling, and the constant pressure to multitask often leave us drained, disorganized,
+        and detached from the routines that matter. Amidst this chaos, DailyX steps in as your everyday companion for
+        reclaiming discipline and balance.
+      </p>
+
+      <p>
+        DailyX isn’t just another productivity app—it’s a mindset reset. Designed with intention, DailyX helps you track
+        your habits, structure your day, and stay aligned with your personal growth journey. Whether you're trying to build
+        a reading routine, improve your fitness, or simply be more mindful, DailyX provides the scaffolding to make those
+        intentions real.
+      </p>
+
+      <p><strong>At its core, DailyX enables:</strong></p>
+
+      <ul>
+        <li><strong>Consistent Habit Formation:</strong> Track recurring tasks and build momentum over time with visual progress indicators.</li>
+        <li><strong>Clarity Through Structure:</strong> Plan your day ahead or reflect on it later with a clean, minimal interface that keeps things simple.</li>
+        <li><strong>A Sync Between Mind and Action:</strong> By logging your activities and wins daily, you're able to live more consciously and purposefully.</li>
+      </ul>
+
+      <p>
+        In a world that constantly pulls your attention outward, DailyX gently brings you back inward—to what matters.
+        It’s not about doing more; it’s about doing what’s meaningful and doing it well.
+      </p>
+
+      <p><strong>Live in sync. Live intentionally. Let DailyX be your anchor.</strong></p>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 DailyX. All rights reserved.
+  </footer>
+
+</body>
+</html>
