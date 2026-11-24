@@ -184,103 +184,281 @@
     }
   }
 
-  /* ---------- sticker wall ---------- */
-  document.querySelectorAll('.wall figure').forEach(function (fig) {
-    fig.setAttribute('tabindex', '0');
-    function pop(x, y) {
-      fig.classList.add('boing');
-      setTimeout(function () { fig.classList.remove('boing'); }, 160);
-      burst(x, y, [fig.getAttribute('data-art'), 'sparkles'], 8);
-      var say = fig.getAttribute('data-say'); if (say) toast(say);
-    }
-    fig.addEventListener('click', function (e) { pop(e.clientX, e.clientY); });
-    fig.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      e.preventDefault(); var r = fig.getBoundingClientRect(); pop(r.left + r.width / 2, r.top + r.height / 2);
+  /* ---------- the app's own brush drawings ---------- */
+  var BR = window.DX_BRUSH;
+  function paths(list) {
+    return list.map(function (s, i) { return '<path class="' + s.role + '" style="--i:' + i + '" d="' + s.d + '"/>'; }).join('');
+  }
+  function illustration(name, extra) {
+    return '<svg class="bx ' + (extra || '') + '" viewBox="0 0 240 180" aria-hidden="true">' + paths(BR.ILLUSTRATIONS[name]) + '</svg>';
+  }
+  function check() {
+    return '<svg class="chk" viewBox="0 0 48 48" aria-hidden="true"><path class="r" fill-rule="evenodd" d="' + BR.BRUSH_CHECK.ring + '"/><path class="k" d="' + BR.BRUSH_CHECK.tick + '"/></svg>';
+  }
+  function face(mood) {
+    var f = BR.MOOD_FACES[mood];
+    return '<svg viewBox="0 0 48 48" aria-hidden="true"><path class="tint" d="' + f.tint + '"/><path class="ink" fill-rule="evenodd" d="' + f.ink + '"/></svg>';
+  }
+  function badge() {
+    var b = BR.BRUSH_BADGE;
+    return '<svg viewBox="0 0 64 76" aria-hidden="true"><path class="ribbon" d="' + b.ribbon + '"/><path class="ring" fill-rule="evenodd" d="' + b.ring + '"/><path class="sparks" d="' + b.sparks + '"/></svg>';
+  }
+  var MOODS = [['Happy', '#48BB78'], ['Neutral', '#718096'], ['Low', '#4299E1'], ['Frustrated', '#F56565'], ['Tired', '#9F7AEA']];
+  if (BR) {
+    document.querySelectorAll('[data-brush]').forEach(function (el) {
+      el.innerHTML = illustration(el.getAttribute('data-brush'), 'paint-strokes');
+      var svg = el.firstChild;
+      if ('IntersectionObserver' in window && !reduce) {
+        var o = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { svg.classList.add('in'); o.disconnect(); } }); }, { threshold: 0.35 });
+        o.observe(el);
+      } else { svg.classList.add('in'); }
     });
-  });
+    document.querySelectorAll('[data-badge]').forEach(function (el) { el.insertAdjacentHTML('afterbegin', badge()); });
+    document.querySelectorAll('[data-check]').forEach(function (el) { el.insertAdjacentHTML('afterbegin', check()); });
+  }
 
-  /* ---------- try it: a tiny working DailyX ---------- */
-  var demo = document.querySelector('[data-demo]');
-  if (demo) {
-    var list = demo.querySelector('.tasks'), pill = demo.querySelector('.xp-pill');
-    var ring = document.querySelector('.ring'), label = document.querySelector('.ring-label');
-    var note = document.querySelector('.note textarea');
-    var defaults = [
-      { name: 'Read a page daily', xp: 19, done: false },
-      { name: 'Ten-minute walk', xp: 15, done: false },
-      { name: 'Drink a glass of water', xp: 5, done: false }
-    ];
-    var tasks;
-    try { tasks = JSON.parse(store('dailyx-demo') || 'null'); } catch (e) { tasks = null; }
-    if (!Array.isArray(tasks)) tasks = JSON.parse(JSON.stringify(defaults));
-    if (note) {
-      note.value = store('dailyx-demo-note') || '';
-      note.addEventListener('input', function () { store('dailyx-demo-note', note.value); });
-    }
-    function render(first) {
-      list.innerHTML = '';
-      tasks.forEach(function (t, i) {
-        var li = document.createElement('li');
-        li.className = 'task' + (t.done ? ' done' : '');
-        li.setAttribute('role', 'checkbox'); li.setAttribute('aria-checked', t.done ? 'true' : 'false'); li.setAttribute('tabindex', '0');
-        li.innerHTML = '<span class="box"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span><span class="name"></span><span class="xp">+' + t.xp + ' XP</span><button class="del" type="button" aria-label="Remove task">✕</button>';
-        li.querySelector('.name').textContent = t.name;
-        if (!first) li.style.animation = 'none';
-        li.addEventListener('click', function (e) {
-          if (e.target.closest('.del')) { tasks.splice(i, 1); save(); render(); return; }
-          toggle(i, e.clientX, e.clientY, li);
-        });
-        li.addEventListener('keydown', function (e) {
-          if (e.key !== 'Enter' && e.key !== ' ') return;
-          e.preventDefault(); var r = li.getBoundingClientRect(); toggle(i, r.left + 30, r.top + r.height / 2, li);
-        });
-        list.appendChild(li);
+  /* ---------- pick a mood ---------- */
+  var pick = document.querySelector('.mood-pick');
+  if (pick && BR) {
+    var says = {
+      Happy: 'Lovely. Write down what made it good, so you can find it again.',
+      Neutral: 'An ordinary day counts too. One line is plenty.',
+      Low: 'Noted, gently. Low days belong in the journal as much as good ones.',
+      Frustrated: 'Fair enough. Put it on the page and let tomorrow start clean.',
+      Tired: 'Rest is part of the plan. Your grove will wait for you.'
+    };
+    var sayEl = document.querySelector('.mood-say');
+    MOODS.forEach(function (m, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.style.setProperty('--mc', m[1]); b.style.setProperty('--tilt', [-2, 1.5, -1, 2, -1.5][i] + 'deg');
+      b.innerHTML = face(m[0]) + m[0];
+      b.addEventListener('click', function (e) {
+        pick.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+        if (sayEl) sayEl.textContent = says[m[0]];
+        burst(e.clientX, e.clientY, ['sparkles'], 5);
       });
-      totals();
+      pick.appendChild(b);
+    });
+  }
+
+  /* ---------- missed tasks: keep or let go ---------- */
+  var missed = document.querySelector('.missed');
+  if (missed) {
+    missed.querySelector('[data-keep]').addEventListener('click', function (e) { missed.classList.add('kept'); burst(e.clientX, e.clientY, ['sparkles'], 6); });
+    missed.querySelector('[data-letgo]').addEventListener('click', function (e) { missed.classList.add('gone'); burst(e.clientX, e.clientY, ['butterfly', 'cloud'], 5); });
+    missed.querySelectorAll('[data-again]').forEach(function (b) { b.addEventListener('click', function () { missed.classList.remove('kept', 'gone'); }); });
+  }
+
+  /* ---------- try it: a small working DailyX ---------- */
+  var phone = document.querySelector('.phone');
+  if (phone && BR) {
+    var $ = function (s) { return phone.querySelector(s); };
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var PROMPTS = ['What went well today?', 'Name three good things from today.', 'What are you grateful for right now?', 'What did you learn today?', 'What made you smile today?', 'What are you proud of today?', 'What small win did you have today?'];
+    var fresh = function () {
+      return { tasks: [
+        { name: 'Read a page', when: 'Today', repeat: 'Daily', xp: 10, done: false },
+        { name: 'Ten-minute walk', when: 'Today', repeat: '', xp: 10, done: false },
+        { name: 'Call mum', when: 'Today', repeat: '', xp: 5, done: false },
+        { name: 'Send the lab report', when: 'Friday', repeat: '', xp: 15, done: false }
+      ], mood: '', note: '', planted: 0 };
+    };
+    var st;
+    try { st = JSON.parse(store('dailyx-phone') || 'null'); } catch (e) { st = null; }
+    if (!st || !Array.isArray(st.tasks)) st = fresh();
+    var save = function () { store('dailyx-phone', JSON.stringify(st)); };
+    var today = function () { return st.tasks.filter(function (t) { return t.when === 'Today'; }); };
+    var doneCount = function () { return today().filter(function (t) { return t.done; }).length; };
+
+    // header + tabs
+    var TABS = [['today', 'Today'], ['tasks', 'Tasks'], ['journal', 'Journal'], ['grove', 'Grove'], ['me', 'Me']];
+    var tabBar = $('.ph-tabs');
+    TABS.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('data-go', t[0]);
+      b.innerHTML = '<svg viewBox="0 0 48 48" aria-hidden="true"><path class="w" d="' + BR.TAB_ICONS.wash + '"/><path class="i" fill-rule="evenodd" d="' + BR.TAB_ICONS[t[0]] + '"/></svg>' + t[1];
+      tabBar.appendChild(b);
+    });
+    $('.ph-head .ul').innerHTML = '<svg viewBox="0 0 64 8" preserveAspectRatio="none" aria-hidden="true"><path fill-rule="evenodd" d="' + BR.BRUSH_UNDERLINE.d + '"/></svg>';
+    function go(name) {
+      TABS.forEach(function (t) {
+        $('[data-pane="' + t[0] + '"]').classList.toggle('on', t[0] === name);
+        tabBar.querySelector('[data-go="' + t[0] + '"]').classList.toggle('on', t[0] === name);
+        if (t[0] === name) $('.ph-head b').textContent = t[1];
+      });
+      $('.ph-body').scrollTop = 0;
+      if (name === 'grove') drawGrove(false);
     }
-    function totals() {
-      var earned = 0, done = 0;
-      tasks.forEach(function (t) { if (t.done) { earned += t.xp; done++; } });
-      pill.textContent = earned + ' XP';
-      var pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
-      if (ring) { ring.style.setProperty('--pct', pct); ring.classList.toggle('full', pct === 100 && tasks.length > 0); }
-      if (label) {
-        label.firstChild.textContent = !tasks.length ? 'Add your first task' : pct === 100 ? 'Day complete!' : done + ' of ' + tasks.length + ' done';
-      }
-      return pct;
+    phone.addEventListener('click', function (e) {
+      var g = e.target.closest('[data-go]');
+      if (g) go(g.getAttribute('data-go'));
+    });
+
+    // Today
+    var ring = $('.ring');
+    ring.insertAdjacentHTML('afterbegin',
+      '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><mask id="ph-sweep"><circle class="sweep" cx="32" cy="32" r="24" pathLength="100" transform="rotate(-90 32 32)" stroke="#fff"/></mask></defs>' +
+      '<path class="track" fill-rule="evenodd" d="' + BR.DAY_RING.ring + '"/><path class="paint" fill-rule="evenodd" mask="url(#ph-sweep)" d="' + BR.DAY_RING.ring + '"/><path class="tick" d="' + BR.DAY_RING.tick + '"/></svg>');
+    ring.querySelector('.sweep').style.stroke = '#fff';
+    var undoBar = $('.ph-undo'), undoTimer, lastDone = null;
+    function row(t, withMeta) {
+      var meta = [t.when !== 'Today' ? t.when : '', t.repeat].filter(Boolean).join(' · ');
+      var li = document.createElement('div');
+      li.className = 'ph-row' + (t.done ? ' done' : '');
+      li.setAttribute('role', 'checkbox'); li.setAttribute('aria-checked', t.done ? 'true' : 'false'); li.setAttribute('tabindex', '0');
+      li.innerHTML = check() + '<span class="nm"></span>' + (t.xp ? '<span class="xp">+' + t.xp + ' XP</span>' : '');
+      var nm = li.querySelector('.nm'); nm.textContent = t.name;
+      if (withMeta && meta) { var sm = document.createElement('small'); sm.textContent = meta; nm.appendChild(sm); }
+      var act = function (x, y) { toggle(t, x, y); };
+      li.addEventListener('click', function (e) { act(e.clientX, e.clientY); });
+      li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); var r = li.getBoundingClientRect(); act(r.left + 24, r.top + 24); } });
+      return li;
     }
-    function save() { store('dailyx-demo', JSON.stringify(tasks)); }
-    function toggle(i, x, y, li) {
-      var t = tasks[i]; t.done = !t.done; save();
-      li.classList.toggle('done', t.done); li.setAttribute('aria-checked', t.done ? 'true' : 'false');
-      var pct = totals();
+    function renderLists() {
+      var t = today(), d = doneCount();
+      var list = $('[data-list="today"]'); list.innerHTML = '';
+      t.forEach(function (x) { list.appendChild(row(x, false)); });
+      list.style.display = t.length ? '' : 'none';
+      var all = $('[data-list="all-today"]'), up = $('[data-list="upcoming"]');
+      all.innerHTML = ''; up.innerHTML = '';
+      st.tasks.forEach(function (x) { (x.when === 'Today' ? all : up).appendChild(row(x, true)); });
+      $('[data-label="upcoming"]').style.display = up.children.length ? '' : 'none'; up.style.display = up.children.length ? '' : 'none';
+      all.style.display = all.children.length ? '' : 'none';
+      var pct = t.length ? Math.round(d / t.length * 100) : 0;
+      ring.style.setProperty('--pct', pct); ring.classList.toggle('full', pct === 100 && t.length > 0);
+      $('.ring .count').textContent = d + '/' + t.length;
+      $('[data-ring-title]').textContent = !t.length ? 'Nothing planned yet' : pct === 100 ? 'All done for today' : (t.length - d) + ' left today';
+      var xp = 0; t.forEach(function (x) { if (x.done) xp += x.xp; });
+      $('[data-ring-sub]').textContent = pct === 100 && t.length ? 'Your forest is growing.' : xp ? xp + ' XP earned so far' : 'Tap a task to finish it.';
+      var done = $('[data-alldone]');
+      var show = pct === 100 && t.length > 0;
+      if (show && done.style.display === 'none') { done.querySelector('.bx').classList.remove('in'); requestAnimationFrame(function () { requestAnimationFrame(function () { done.querySelector('.bx').classList.add('in'); }); }); }
+      done.style.display = show ? '' : 'none';
+      // Me
+      var score = Math.min(100, 76 + d * 3 + (st.mood ? 3 : 0));
+      $('[data-score]').textContent = score;
+      $('[data-week]').textContent = (4 + (d || st.mood ? 1 : 0)) + '/7';
+      var cell = $('.ph-heat .today'); if (cell) cell.setAttribute('data-l', d >= 3 ? 3 : d >= 1 ? 2 : st.mood ? 1 : 0);
+      var dot = $('.ph-dots .now'); if (dot) dot.classList.toggle('on', !!st.mood);
+      $('[data-flow]').textContent = Math.min(100, 62 + d * 6 + (st.mood ? 6 : 0)) + '%';
+      $('[data-trees]').textContent = 9 + st.planted;
+    }
+    function toggle(t, x, y) {
+      t.done = !t.done;
+      if (t.done) { st.planted++; lastDone = t; } else { st.planted = Math.max(0, st.planted - 1); }
+      save(); renderLists();
       if (t.done) {
-        pill.classList.add('bump'); setTimeout(function () { pill.classList.remove('bump'); }, 380);
-        if (ring) { ring.classList.add('cheer'); setTimeout(function () { ring.classList.remove('cheer'); }, 500); }
-        burst(x, y, ['sparkles'], 7);
-        if (pct === 100) {
-          toast('Day complete — all tasks done!');
-          var r = ring ? ring.getBoundingClientRect() : { left: x, top: y, width: 0, height: 0 };
-          burst(r.left + r.width / 2, r.top + r.height / 2, ['sparkles', 'rocket', 'butterfly', 'sun'], 14);
-        } else {
-          toast('Task completed! Earned ' + t.xp + ' XP');
+        burst(x, y, ['sparkles'], 6);
+        undoBar.querySelector('span').textContent = 'Done' + (t.xp ? ' · +' + t.xp + ' XP' : '');
+        undoBar.classList.add('show'); clearTimeout(undoTimer);
+        undoTimer = setTimeout(function () { undoBar.classList.remove('show'); }, 6000);
+        if (doneCount() === today().length) {
+          var r = phone.getBoundingClientRect();
+          burst(r.left + r.width / 2, r.top + 180, ['sparkles', 'trees', 'butterfly', 'sun'], 14);
         }
-      }
+      } else { undoBar.classList.remove('show'); }
     }
-    var form = demo.querySelector('.add');
-    form.addEventListener('submit', function (e) {
+    undoBar.querySelector('button').addEventListener('click', function () {
+      if (lastDone && lastDone.done) { lastDone.done = false; st.planted = Math.max(0, st.planted - 1); save(); renderLists(); }
+      undoBar.classList.remove('show');
+    });
+
+    // Tasks: typed dates
+    var input = $('[data-new]'), chips = $('.ph-chips');
+    function parse(text) {
+      var out = { name: text, when: 'Today', repeat: '' }, m;
+      var cut = function (re) { out.name = out.name.replace(re, ' ').replace(/\s+/g, ' ').trim(); };
+      if ((m = /\bevery ?day\b|\bdaily\b/i.exec(text))) { out.repeat = 'Daily'; cut(/\bevery ?day\b|\bdaily\b/i); }
+      else if ((m = /\bevery week\b|\bweekly\b/i.exec(text))) { out.repeat = 'Weekly'; cut(/\bevery week\b|\bweekly\b/i); }
+      else if ((m = /\bevery month\b|\bmonthly\b/i.exec(text))) { out.repeat = 'Monthly'; cut(/\bevery month\b|\bmonthly\b/i); }
+      if (/\btomorrow\b/i.test(text)) { out.when = 'Tomorrow'; cut(/\btomorrow\b/i); }
+      else if ((m = /\b(?:on |next )?(sun|mon|tues?|wed(?:nes)?|thu(?:rs)?|fri|sat(?:ur)?)(?:day)?\b/i.exec(text))) {
+        var k = m[1].slice(0, 3).toLowerCase();
+        out.when = DAYS.filter(function (d) { return d.slice(0, 3).toLowerCase() === k; })[0]; cut(new RegExp(m[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+      } else if ((m = /\bin (\d+) days?\b/i.exec(text))) { out.when = 'In ' + m[1] + ' days'; cut(/\bin \d+ days?\b/i); }
+      else if (/\btoday\b/i.test(text)) { cut(/\btoday\b/i); }
+      return out;
+    }
+    function showChips() {
+      var v = input.value.trim();
+      if (!v) { chips.innerHTML = '<span style="background:none;color:var(--t2);font-weight:400;padding-left:0">Try “call mum tomorrow” or “water plants every day”</span>'; return; }
+      var p = parse(v);
+      chips.innerHTML = '<span>When · ' + p.when + '</span>' + (p.repeat ? '<span>Repeat · ' + p.repeat + '</span>' : '');
+    }
+    input.addEventListener('input', showChips); showChips();
+    $('[data-add]').addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = form.elements.name.value.trim();
-      var xp = Math.max(1, Math.min(999, parseInt(form.elements.xp.value, 10) || 10));
-      if (!name) { form.elements.name.focus(); return; }
-      tasks.push({ name: name.slice(0, 60), xp: xp, done: false }); save(); render(true);
-      form.elements.name.value = '';
+      var v = input.value.trim(); if (!v) { input.focus(); return; }
+      var p = parse(v);
+      st.tasks.push({ name: (p.name || v).slice(0, 48).replace(/^./, function (c) { return c.toUpperCase(); }), when: p.when, repeat: p.repeat, xp: 10, done: false });
+      input.value = ''; showChips(); save(); renderLists();
     });
-    demo.querySelector('[data-reset]').addEventListener('click', function () {
-      tasks = JSON.parse(JSON.stringify(defaults)); save(); render(true);
+
+    // Journal
+    var moodsEl = $('.ph-moods'), noteEl = $('[data-note]');
+    $('[data-prompt]').textContent = PROMPTS[Math.floor(Date.now() / 86400000) % PROMPTS.length];
+    MOODS.forEach(function (m) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.style.setProperty('--mc', m[1]); b.innerHTML = face(m[0]) + m[0];
+      b.classList.toggle('on', st.mood === m[0]);
+      b.addEventListener('click', function () {
+        st.mood = st.mood === m[0] ? '' : m[0]; save();
+        moodsEl.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b && !!st.mood); });
+        renderLists();
+      });
+      moodsEl.appendChild(b);
     });
-    render(true);
+    noteEl.value = st.note || '';
+    noteEl.addEventListener('input', function () { st.note = noteEl.value.slice(0, 400); save(); });
+    $('[data-save]').addEventListener('click', function (e) {
+      if (!st.mood && !noteEl.value.trim()) { toast('Pick a mood or write a line first'); return; }
+      toast('Saved to your journal'); burst(e.clientX, e.clientY, ['sparkles', 'journal'], 6);
+    });
+
+    // Grove: every completed task grows a tree
+    var groveSvg = $('.ph-grove svg'), grovePop;
+    function rnd(i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+    function drawGrove() {
+      var n = 9 + st.planted, d = doneCount();
+      var flow = Math.min(100, 62 + d * 6 + (st.mood ? 6 : 0)), w = 7 + flow * 0.16;
+      var h = '<path class="bird" d="M0 30q4-5 8 0q4-5 8 0"/><path class="bird b2" d="M0 52q3-4 6 0q3-4 6 0"/>';
+      h += '<path class="river" d="M-5 ' + (150 - w) + 'C70 ' + (138 - w) + ' 120 ' + (170 - w) + ' 190 ' + (152 - w) + 'S290 ' + (140 - w) + ' 325 ' + (156 - w) + 'L325 ' + (156 + w) + 'C290 ' + (142 + w) + ' 250 ' + (166 + w) + ' 190 ' + (154 + w) + 'S70 ' + (140 + w) + ' -5 ' + (152 + w) + 'Z"/>';
+      h += '<path class="ripple" d="M10 150C70 140 120 168 190 153S290 142 320 156"/>';
+      for (var i = 0; i < Math.min(n, 48); i++) {
+        var x = 16 + rnd(i) * 288, y = 78 + rnd(i + 50) * 44, s = 0.75 + rnd(i + 99) * 0.6, pine = rnd(i + 7) > 0.6;
+        var leaf = pine ? '<path class="leaf" d="M0 -34L9 -12L-9 -12Z M0 -26L11 -4L-11 -4Z"/>' : '<path class="leaf" d="M-9 -20q-4 -9 4 -13q3 -7 10 -3q8 1 6 9q4 7 -4 10q-9 4 -16 -3z"/>';
+        h += '<g transform="translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ') scale(' + s.toFixed(2) + ')"><g class="tree' + (i >= n - 1 && st.planted && i === n - 1 ? ' new' : '') + '" data-tree="' + i + '" style="animation-delay:' + (-rnd(i + 3) * 4).toFixed(1) + 's"><circle class="hit" cx="0" cy="-14" r="20"/><path class="trunk" d="M0 0q-1.5 -9 0 -17"/>' + leaf + '</g></g>';
+      }
+      groveSvg.innerHTML = h;
+    }
+    groveSvg.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-tree]'); if (!t) return;
+      var i = +t.getAttribute('data-tree'), n = 9 + st.planted;
+      var ago = n - 1 - i, dt = new Date(Date.now() - Math.ceil(ago / 2) * 86400000);
+      var label = ago < st.planted ? 'Today' : dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      if (grovePop) grovePop.remove();
+      grovePop = document.createElement('div'); grovePop.className = 'ph-pop';
+      grovePop.textContent = label + ' · ' + MOODS[i % 5][0] + ' · a task finished';
+      $('.ph-grove').appendChild(grovePop);
+      var p = grovePop; setTimeout(function () { p.remove(); }, 2200);
+    });
+
+    // Me: a year in squares (sample history)
+    var heat = $('.ph-heat'), cells = '';
+    for (var c = 0; c < 119; c++) {
+      var v = rnd(c + 11), l = c === 118 ? 0 : v > 0.82 ? 3 : v > 0.5 ? 2 : v > 0.22 ? 1 : 0;
+      cells += '<i data-l="' + l + '"' + (c === 118 ? ' class="today"' : '') + '></i>';
+    }
+    heat.innerHTML = cells;
+    phone.querySelectorAll('.ph-medals > div').forEach(function (m) { m.insertAdjacentHTML('afterbegin', badge()); });
+    $('[data-alldone] [data-art]').innerHTML = illustration('allDone', 'paint-strokes in');
+
+    var resetBtn = document.querySelector('[data-phone-reset]');
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      st = fresh(); save(); noteEl.value = ''; moodsEl.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
+      renderLists(); drawGrove(); go('today');
+    });
+    renderLists(); drawGrove(); go('today');
   }
 
   /* ---------- buttons throw a few sparkles ---------- */

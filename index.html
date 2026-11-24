@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DailyX | Your Only Daily</title>
-  <meta name="description" content="DailyX — set tasks, achieve them, and journal your day. One calm place for your everyday." />
-  <link rel="icon" href="assets/art/planet.webp" />
+  <title>DailyX | Every day, a little better</title>
+  <meta name="description" content="DailyX — tasks, reminders, a two-minute journal and a grove that grows with every task you finish. Plan less. Do more. Feel better." />
+  <link rel="icon" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/site.css" />
   <script>document.documentElement.classList.add('js');try{if(localStorage.getItem('dailyx-theme')==='night')document.documentElement.setAttribute('data-theme','night')}catch(e){}</script>
 </head>
 <body data-paint>
   <header class="site-header">
     <div class="wrap">
-      <a class="logo-link" href="index.html" aria-label="DailyX home"><img src="assets/DailyX.png" alt="DailyX" class="logo" /></a>
+      <a class="brand" href="index.html" aria-label="DailyX home"><img src="assets/logo-mark.png" alt="" /><span>Daily<b>X</b></span></a>
       <nav class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="#try">Try it</a></li>
           <li><a href="resources.html">Resources</a></li>
           <li><a class="btn small" href="download.html">Download</a></li>
         </ul>
@@ -31,105 +31,226 @@
     <section class="hero">
       <div class="wrap">
         <div class="hero-copy">
-          <span class="eyebrow">Hello, today!</span>
-          <h1>Your <span class="swash">only</span> daily — <span class="stroke">DailyX</span></h1>
-          <p class="lede">Set tasks, achieve your tasks, and journal your day. One calm little place for everything you do.</p>
+          <span class="eyebrow">Plan less. Do more. Feel better.</span>
+          <h1 class="paint in">Every day, a <span class="swash">little</span> <span class="stroke">better.</span></h1>
+          <p class="lede">Tasks, reminders, a two-minute journal and a grove that grows with every task you finish.</p>
           <div class="hero-actions">
-            <a class="btn" href="download.html">Download DailyX</a>
-            <a class="btn ghost" href="#peek">Peek inside</a>
+            <a class="btn" href="download.html">Get DailyX for Android</a>
+            <a class="btn ghost" href="#try">Try it right here</a>
           </div>
         </div>
 
-        <div class="scene" data-parallax aria-hidden="true">
+        <div class="scene" data-parallax>
           <div class="blob"></div>
-          <img class="sticker drift" data-depth="0.25" src="assets/art/cloud.webp" alt="" style="left:-4%;top:4%;width:40%;--d:11s" />
-          <img class="sticker spin-slow" data-depth="0.5" src="assets/art/sun.webp" alt="" style="right:-3%;top:-4%;width:31%;--d:5s" />
-          <img class="sticker float" data-depth="0.7" src="assets/art/planet.webp" alt="" style="left:26%;top:-3%;width:39%;--r:-8deg;--d:7s" />
-          <img class="sticker" data-depth="0.35" src="assets/art/girl.webp" alt="" style="left:9%;top:24%;width:82%" />
-          <img class="sticker float" data-depth="0.9" src="assets/art/plane.webp" alt="" style="left:-9%;top:36%;width:34%;--r:-6deg;--d:6s;--delay:-2s" />
-          <img class="sticker sway" data-depth="0.8" src="assets/art/butterfly.webp" alt="" style="right:-5%;top:33%;width:25%;--r:12deg;--d:3.2s" />
-          <img class="sticker float" data-depth="1" src="assets/art/checklist.webp" alt="" style="left:-5%;bottom:0%;width:35%;--r:-9deg;--d:6.5s;--delay:-1s" />
-          <img class="sticker float" data-depth="1.1" src="assets/art/bell.webp" alt="" style="right:-4%;bottom:1%;width:31%;--r:10deg;--d:5.5s;--delay:-3s" />
-          <img class="sticker spin-slow" data-depth="0.6" src="assets/art/sparkles.webp" alt="" style="left:41%;bottom:-6%;width:21%;--d:3s" />
+          <img class="sticker drift grab" data-depth="0.25" src="assets/art/cloud.webp" alt="" style="left:-4%;top:4%;width:40%;--d:11s" />
+          <img class="sticker spin-slow grab" data-depth="0.5" src="assets/art/sun.webp" alt="" style="right:-3%;top:-4%;width:31%;--d:5s" />
+          <img class="sticker float grab" data-depth="0.7" src="assets/art/planet.webp" alt="" style="left:26%;top:-3%;width:39%;--r:-8deg;--d:7s" />
+          <img class="sticker" data-depth="0.35" src="assets/art/girl.webp" alt="Someone journaling with headphones on" style="left:9%;top:24%;width:82%" />
+          <img class="sticker float grab" data-depth="0.9" src="assets/art/plane.webp" alt="" style="left:-9%;top:36%;width:34%;--r:-6deg;--d:6s;--delay:-2s" />
+          <img class="sticker sway grab" data-depth="0.8" src="assets/art/butterfly.webp" alt="" style="right:-5%;top:33%;width:25%;--r:12deg;--d:3.2s" />
+          <img class="sticker float grab" data-depth="1" src="assets/art/checklist.webp" alt="" style="left:-5%;bottom:0%;width:35%;--r:-9deg;--d:6.5s;--delay:-1s" />
+          <img class="sticker float grab" data-depth="1.1" src="assets/art/bell.webp" alt="" style="right:-4%;bottom:1%;width:31%;--r:10deg;--d:5.5s;--delay:-3s" />
+          <img class="sticker spin-slow grab" data-depth="0.6" src="assets/art/sparkles.webp" alt="" style="left:41%;bottom:-6%;width:21%;--d:3s" />
+          <span class="hint" aria-hidden="true">psst — drag the stickers ↑</span>
         </div>
       </div>
     </section>
 
-    <!-- What you get -->
+    <div class="ribbon" aria-hidden="true">
+      <div class="track">
+        <div class="set"><span>Plan less</span><img src="assets/art/calendar.webp" alt="" /><span>Do more</span><img src="assets/art/rocket.webp" alt="" /><span>Feel better</span><img src="assets/art/mug.webp" alt="" /><span>Every day</span><img src="assets/art/sun.webp" alt="" /><span>No guilt</span><img src="assets/art/butterfly.webp" alt="" /><span>Grow a grove</span><img src="assets/art/trees.webp" alt="" /></div>
+        <div class="set"><span>Plan less</span><img src="assets/art/calendar.webp" alt="" /><span>Do more</span><img src="assets/art/rocket.webp" alt="" /><span>Feel better</span><img src="assets/art/mug.webp" alt="" /><span>Every day</span><img src="assets/art/sun.webp" alt="" /><span>No guilt</span><img src="assets/art/butterfly.webp" alt="" /><span>Grow a grove</span><img src="assets/art/trees.webp" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- Try it -->
+    <section class="section" id="try">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Go on, tap it</span>
+          <h2 class="paint">A whole day, on <span class="swash lilac">one screen</span></h2>
+          <p>This little phone works. Finish a task, type a date, log a mood — then peek at the Grove.</p>
+        </div>
+
+        <div class="try">
+          <div class="callouts left reveal">
+            <div class="callout"><span class="n">Today</span><h3>One tap, done</h3><p>Finish a task with a single tap. Changed your mind? Undo sits right there for a few seconds.</p></div>
+            <div class="callout"><span class="n">Tasks</span><h3>Just type it</h3><p>“Call mum tomorrow”, “on Friday”, “in 3 days”, “every day” — DailyX sets the date for you.</p></div>
+          </div>
+
+          <div class="phone" aria-label="Interactive preview of the DailyX app">
+            <div class="ph-head"><img class="mark" src="assets/logo-mark.png" alt="" /><div><b>Today</b><span class="ul"></span></div></div>
+            <div class="ph-body">
+              <!-- Today -->
+              <div class="ph-pane on" data-pane="today">
+                <div class="ph-card ph-ring">
+                  <div class="ring"><span class="count">0/3</span></div>
+                  <div><b data-ring-title>3 left today</b><span class="ph-muted" data-ring-sub>Tap a task to finish it.</span></div>
+                </div>
+                <div class="ph-label">What matters most today?</div>
+                <div class="ph-list" data-list="today"></div>
+                <div class="ph-card ph-empty" data-alldone style="display:none;margin-top:12px">
+                  <div data-art></div>
+                  <b>All done for today</b>
+                  <span class="ph-muted">Every completed task grows a tree.</span><br />
+                  <button class="ph-btn text" type="button" data-go="grove">See your grove</button>
+                </div>
+                <div class="ph-label">Check-in</div>
+                <div class="ph-card">
+                  <span class="ph-muted">Last 7 days</span>
+                  <div class="ph-dots"><i class="on">M</i><i class="on">T</i><i>W</i><i class="on">T</i><i class="on">F</i><i>S</i><i class="now">S</i></div>
+                  <button class="ph-btn" type="button" data-go="journal">Update Journal</button>
+                </div>
+              </div>
+              <!-- Tasks -->
+              <div class="ph-pane" data-pane="tasks">
+                <form data-add>
+                  <input class="ph-input" data-new type="text" maxlength="60" placeholder="Add a task…" aria-label="New task" autocomplete="off" />
+                  <div class="ph-chips"></div>
+                  <button class="ph-btn" type="submit" style="width:100%">Add task</button>
+                </form>
+                <div class="ph-label">Today</div>
+                <div class="ph-list" data-list="all-today"></div>
+                <div class="ph-label" data-label="upcoming">Upcoming</div>
+                <div class="ph-list" data-list="upcoming"></div>
+              </div>
+              <!-- Journal -->
+              <div class="ph-pane" data-pane="journal">
+                <b style="font-weight:600;font-size:15px" data-prompt>What went well today?</b>
+                <div class="ph-moods"></div>
+                <textarea class="ph-input" data-note maxlength="400" placeholder="Two minutes is plenty…" aria-label="Journal entry"></textarea>
+                <button class="ph-btn" type="button" data-save style="width:100%;margin-top:10px">Save entry</button>
+                <p class="ph-muted" style="margin-top:12px">Gentle reminders at 4 PM, 6 PM and 9 PM — “Open Journal and update your day”.</p>
+              </div>
+              <!-- Grove -->
+              <div class="ph-pane" data-pane="grove">
+                <div class="ph-grove"><svg viewBox="0 0 320 190" role="img" aria-label="Your grove"></svg></div>
+                <p style="font-weight:600;margin-top:10px">Every completed task grows a tree.</p>
+                <p class="ph-muted">Tap a tree to revisit a day.</p>
+                <div class="ph-stats">
+                  <div class="ph-card"><span class="ph-muted">River Flow</span><b data-flow>62%</b></div>
+                  <div class="ph-card" style="margin-top:0"><span class="ph-muted">Trees</span><b data-trees>9</b></div>
+                </div>
+              </div>
+              <!-- Me -->
+              <div class="ph-pane" data-pane="me">
+                <div class="ph-stats" style="margin-top:0">
+                  <div class="ph-card"><span class="ph-muted">Consistency</span><b data-score>76</b></div>
+                  <div class="ph-card" style="margin-top:0"><span class="ph-muted">Last 7 days</span><b data-week>4/7</b></div>
+                </div>
+                <div class="ph-label">Your year so far</div>
+                <div class="ph-card"><div class="ph-heat"></div></div>
+                <div class="ph-label">Milestones</div>
+                <div class="ph-card ph-medals"><div>7 active days</div><div class="pale">30 active days</div><div class="pale">100 active days</div></div>
+              </div>
+            </div>
+            <div class="ph-undo" role="status"><span>Done</span><button type="button">UNDO</button></div>
+            <div class="ph-tabs" role="tablist" aria-label="App tabs"></div>
+          </div>
+
+          <div class="callouts right reveal">
+            <div class="callout"><span class="n">Journal</span><h3>Two minutes for you</h3><p>Pick a mood, answer one small question. A new prompt every day, so the page is never blank.</p></div>
+            <div class="callout"><span class="n">Grove</span><h3>Every task grows a tree</h3><p>Your effort becomes a little forest. The river runs fuller the steadier you are.</p></div>
+          </div>
+        </div>
+        <p class="sample">A playful preview with sample data — the real app has more. <button type="button" data-phone-reset>Start over</button></p>
+      </div>
+    </section>
+
+    <!-- What's inside: the app's own brush drawings -->
     <section class="section tint torn-top torn-bottom" id="features">
       <div class="wrap">
         <div class="section-head reveal">
           <span class="eyebrow">What's inside</span>
-          <h2>Small steps, <span class="swash lilac">painted</span> daily</h2>
-          <p>No noise, no clutter. Just the few things that actually move your day forward.</p>
+          <h2 class="paint">Small steps, <span class="swash">painted</span> daily</h2>
+          <p>Minimal on purpose. A few calm tools you'll actually come back to.</p>
         </div>
-        <div class="cards">
+        <div class="cards six">
           <article class="card reveal" style="--tilt:-1.5deg">
-            <img class="art" src="assets/art/calendar.webp" alt="" loading="lazy" />
-            <h3>Set your tasks</h3>
-            <p>Add what matters, give each task its own reward, and line up your day before it starts.</p>
+            <div class="art-brush" data-brush="tasks"></div>
+            <span class="tag">Today</span>
+            <h3>Your day. One screen.</h3>
+            <p>What's on today and what's already done, with a brush ring that fills as you go.</p>
           </article>
           <article class="card reveal" style="--tilt:1.2deg;--stagger:.08s">
-            <img class="art" src="assets/art/rocket.webp" alt="" loading="lazy" />
-            <h3>Achieve &amp; earn XP</h3>
-            <p>Tick a task off and collect the XP you set for it. Tiny wins, every single day.</p>
+            <div class="art-brush" data-brush="plan"></div>
+            <span class="tag">Tasks &amp; reminders</span>
+            <h3>Set it once</h3>
+            <p>Repeat daily, weekly or monthly. Get a nudge 30 minutes before, or at 9 AM if there's no time set.</p>
           </article>
           <article class="card reveal" style="--tilt:-1deg;--stagger:.16s">
-            <img class="art" src="assets/art/journal.webp" alt="" loading="lazy" />
-            <h3>Journal your day</h3>
-            <p>Close the day with a few honest lines. Your thoughts sit right beside your tasks.</p>
+            <div class="art-brush" data-brush="journal"></div>
+            <span class="tag">Journal</span>
+            <h3>Two minutes for you</h3>
+            <p>A mood and a few honest lines. Weekly recaps and “on this day” bring old entries back.</p>
           </article>
-          <article class="card reveal" style="--tilt:1.6deg;--stagger:.24s">
-            <img class="art" src="assets/art/sprout.webp" alt="" loading="lazy" />
-            <h3>Watch it grow</h3>
-            <p>Everything you add, edit and finish is saved in your history, so progress is easy to see.</p>
+          <article class="card reveal" style="--tilt:1.6deg">
+            <div class="art-brush" data-brush="grove"></div>
+            <span class="tag">Grove</span>
+            <h3>Every task grows a tree</h3>
+            <p>Birds, a breeze and a river that follows your consistency. Tap a tree to revisit that day.</p>
+          </article>
+          <article class="card reveal" style="--tilt:-1.3deg;--stagger:.08s">
+            <div class="art-brush" data-brush="growth"></div>
+            <span class="tag">Consistency</span>
+            <h3>Nothing resets to zero</h3>
+            <p>A score from 0 to 100 instead of a fragile streak. Miss a day and it dips a little — that's all.</p>
+          </article>
+          <article class="card reveal" style="--tilt:1deg;--stagger:.16s">
+            <div class="art-brush" data-brush="history"></div>
+            <span class="tag">Your whole year</span>
+            <h3>A year in one picture</h3>
+            <p>A heatmap of every day you showed up. Tap any square to open that day again.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- In motion -->
+    <!-- No guilt -->
     <section class="section">
       <div class="wrap split">
         <div class="reveal">
-          <span class="eyebrow">In motion</span>
-          <h2>Plan it. <span class="stroke">Do it.</span> Write it down.</h2>
-          <p>DailyX keeps the loop simple: decide what today is for, get it done, and leave yourself a note about how it went.</p>
+          <span class="eyebrow">Missed one?</span>
+          <h2 class="paint">No <span class="swash sky">guilt</span> trip.</h2>
+          <p>Yesterday's unfinished tasks don't pile up and glare at you. DailyX simply asks: keep them for today, or let them go.</p>
+          <ul class="bullets">
+            <li data-check><span>A missed day costs a few points — never your whole streak.</span></li>
+            <li data-check><span>Trees you've grown stay standing, whatever happens.</span></li>
+            <li data-check><span>Works offline; your tasks and entries sync when you're back.</span></li>
+          </ul>
+          <p class="pledge">“Nothing ever dies; the forest waits for you.”</p>
         </div>
-        <div class="frame reveal" style="rotate:1.5deg">
-          <span class="tape left"></span><span class="tape right"></span>
-          <video autoplay muted loop playsinline preload="metadata">
-            <source src="assets/homepage-hero.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <img class="sticker sway deco-hide" src="assets/art/vine.webp" alt="" style="left:-13%;bottom:-16%;width:27%;--r:-14deg" />
-          <img class="sticker float" src="assets/art/clock.webp" alt="" style="right:-9%;top:-20%;width:24%;--r:9deg" />
+        <div class="reveal" style="justify-self:center;position:relative">
+          <div class="missed">
+            <h3>You missed 2 tasks</h3>
+            <p>Still want to do them? Keep them for today, or let them go.</p>
+            <ul>
+              <li>Water the plants<small>Planned yesterday</small></li>
+              <li>Reply to Sam<small>Planned on Friday</small></li>
+            </ul>
+            <div class="row">
+              <button class="btn" type="button" data-keep>Keep all</button>
+              <button class="btn ghost" type="button" data-letgo>Let all go</button>
+            </div>
+            <p class="after k">Back on today's list. You've got this. <button class="btn ghost small" type="button" data-again>Again</button></p>
+            <p class="after g">Gone, no hard feelings. <button class="btn ghost small" type="button" data-again>Again</button></p>
+          </div>
+          <img class="sticker sway deco-hide" src="assets/art/vine.webp" alt="" style="left:-22%;bottom:-14%;width:36%;--r:-14deg" />
+          <img class="sticker float" src="assets/art/clock.webp" alt="" style="right:-12%;top:-16%;width:30%;--r:9deg" />
         </div>
       </div>
     </section>
 
-    <!-- Peek inside -->
-    <section class="section tint torn-top torn-bottom" id="peek">
+    <!-- Moods -->
+    <section class="section tint torn-top torn-bottom">
       <div class="wrap">
         <div class="section-head reveal">
-          <span class="eyebrow">Peek inside</span>
-          <h2>See how a day <span class="swash sky">flows</span></h2>
+          <span class="eyebrow">The journal</span>
+          <h2 class="paint">How was <span class="stroke">today?</span></h2>
+          <p>Five brush-painted faces, straight from the app. Pick the one that fits.</p>
         </div>
-
-        <div class="tabs" role="tablist" aria-label="App walkthrough">
-          <button class="tab-button" role="tab" aria-selected="false" data-tab="manage">Manage tasks</button>
-          <button class="tab-button active" role="tab" aria-selected="true" data-tab="task">Tasks</button>
-          <button class="tab-button" role="tab" aria-selected="false" data-tab="journal">Journal</button>
-        </div>
-
-        <div class="frame reveal" style="max-width:980px;margin-inline:auto">
-          <span class="tape"></span>
-          <img src="assets/ManageTask.png" alt="Managing tasks in DailyX" class="tab-image" data-tab="manage" loading="lazy" />
-          <img src="assets/Tasks.png" alt="The DailyX task list and completing a task" class="tab-image active" data-tab="task" loading="lazy" />
-          <img src="assets/Journal.png" alt="Journaling in DailyX" class="tab-image" data-tab="journal" loading="lazy" />
-          <img class="sticker float deco-hide" src="assets/art/wave.webp" alt="" style="left:-11%;bottom:-9%;width:21%;--r:-6deg" />
-          <img class="sticker spin-slow deco-hide" src="assets/art/sparkles.webp" alt="" style="right:-7%;top:-9%;width:13%" />
-        </div>
+        <div class="mood-pick reveal"></div>
+        <p class="mood-say" aria-live="polite">Go on — tap a face.</p>
       </div>
     </section>
 
@@ -138,27 +259,50 @@
       <div class="wrap">
         <div class="section-head reveal">
           <span class="eyebrow">Morning to moonlight</span>
-          <h2>A day with <span class="swash leaf">DailyX</span></h2>
+          <h2 class="paint">A day with <span class="swash leaf">DailyX</span></h2>
         </div>
         <div class="day">
           <div class="moment reveal">
             <div class="pic"><img class="float" src="assets/art/mug.webp" alt="" loading="lazy" style="--d:6s" /></div>
             <span class="when">Morning</span>
-            <h3>Pick today's tasks</h3>
-            <p>A warm cup, a short list. Choose what today is really about.</p>
+            <h3>What matters most today?</h3>
+            <p>One quiet question until noon, and your short list for the day.</p>
           </div>
           <div class="moment reveal" style="--stagger:.1s">
             <div class="pic"><img class="float" src="assets/art/trees.webp" alt="" loading="lazy" style="--d:7s;--delay:-2s" /></div>
             <span class="when">Daytime</span>
-            <h3>Get things done</h3>
-            <p>Work through your list one task at a time and watch the XP add up.</p>
+            <h3>Tap, done, grow</h3>
+            <p>Finish things one tap at a time. Each one plants a tree in your grove.</p>
           </div>
           <div class="moment reveal" style="--stagger:.2s">
             <div class="pic"><img class="float" src="assets/art/moon.webp" alt="" loading="lazy" style="--d:6.5s;--delay:-1s" /></div>
             <span class="when">Night</span>
-            <h3>Write it down</h3>
-            <p>A few lines in your journal, then rest. Tomorrow starts fresh.</p>
+            <h3>Late night? Dark mode.</h3>
+            <p>A gentle nudge to update your journal, then rest. Try the moon up top.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ribbon violet" aria-hidden="true">
+      <div class="track">
+        <div class="set"><img src="assets/art/planet.webp" alt="" /><span>Tasks</span><img src="assets/art/bell.webp" alt="" /><span>Reminders</span><img src="assets/art/journal.webp" alt="" /><span>Journal</span><img src="assets/art/sprout.webp" alt="" /><span>Grove</span><img src="assets/art/wave.webp" alt="" /><span>River flow</span><img src="assets/art/moon.webp" alt="" /><span>Dark mode</span></div>
+        <div class="set"><img src="assets/art/planet.webp" alt="" /><span>Tasks</span><img src="assets/art/bell.webp" alt="" /><span>Reminders</span><img src="assets/art/journal.webp" alt="" /><span>Journal</span><img src="assets/art/sprout.webp" alt="" /><span>Grove</span><img src="assets/art/wave.webp" alt="" /><span>River flow</span><img src="assets/art/moon.webp" alt="" /><span>Dark mode</span></div>
+      </div>
+    </div>
+
+    <!-- Milestones -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Keep showing up</span>
+          <h2 class="paint">Medals for <span class="swash">active days</span></h2>
+          <p>Painted in once you've earned them — pale until then.</p>
+        </div>
+        <div class="medals reveal">
+          <div class="medal" data-badge><b>7</b><span>active days</span></div>
+          <div class="medal" data-badge><b>30</b><span>active days</span></div>
+          <div class="medal" data-badge><b>100</b><span>active days</span></div>
         </div>
       </div>
     </section>
@@ -169,9 +313,9 @@
       <img class="sticker float deco-hide" src="assets/art/mascot.webp" alt="" style="left:5%;bottom:8%;width:min(21vw,250px);--r:-5deg" />
       <img class="sticker drift deco-hide" src="assets/art/rocket.webp" alt="" style="right:4%;top:12%;width:min(23vw,280px);--r:4deg;--d:7s" />
       <div class="wrap reveal">
-        <h2>Ready for a <span class="swash">productivity</span> run?</h2>
-        <p>No distraction, only action. Start with one task today.</p>
-        <a class="btn amber" href="download.html">Download DailyX</a>
+        <h2 class="paint">Start with <span class="swash">one task</span> today</h2>
+        <p>Plan less. Do more. Feel better. Every day.</p>
+        <a class="btn amber" href="download.html">Get DailyX for Android</a>
       </div>
     </section>
   </main>
@@ -179,15 +323,17 @@
   <footer class="site-footer">
     <img class="sticker float" src="assets/art/river.webp" alt="" />
     <div class="wrap">
-      <span class="brush">DailyX — your only daily</span>
+      <a class="brand" href="index.html" aria-label="DailyX home"><img src="assets/logo-mark.png" alt="" /><span>Daily<b>X</b></span></a>
       <nav aria-label="Footer">
         <a href="resources.html">Resources</a>
         <a href="download.html">Download</a>
+        <a href="https://hirdav.github.io/dailyx-support" target="_blank" rel="noopener">Support &amp; privacy</a>
       </nav>
-      <small>&copy; 2026 DailyX. All rights reserved.</small>
+      <small>Every day, a little better. &copy; 2026 DailyX. All rights reserved.</small>
     </div>
   </footer>
 
+  <script src="assets/brush.js"></script>
   <script src="assets/site.js"></script>
 </body>
 </html>
