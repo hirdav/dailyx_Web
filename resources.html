@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/site.css" />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.classList.add('js');try{if(localStorage.getItem('dailyx-theme')==='night')document.documentElement.setAttribute('data-theme','night')}catch(e){}</script>
 </head>
-<body>
+<body data-paint>
   <header class="site-header">
     <div class="wrap">
       <a class="logo-link" href="index.html" aria-label="DailyX home"><img src="assets/DailyX.png" alt="DailyX" class="logo" /></a>
