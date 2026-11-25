@@ -770,3 +770,7 @@ section .medal { color: var(--text); }
 .site-footer .powered { display: inline-block; margin-left: 0.4rem; }
 .site-footer .powered a { font-family: var(--brush); font-size: 1.25rem; color: var(--amber); }
 .site-footer .powered a:hover { color: #fff; }
+
+.cta .reach { font-size: 1rem; margin: 2.2rem auto 0; max-width: none; color: #e8defF; }
+.cta .reach a { color: #fff; font-weight: 700; }
+.cta .reach a:hover { color: var(--amber); }
