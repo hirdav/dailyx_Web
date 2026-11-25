@@ -767,3 +767,6 @@ section .medal { color: var(--text); }
 [data-theme='night'] .swash { color: #1b1430; }
 .bullets li { text-align: left; }
 @media (max-width: 960px) { .pledge { margin-inline: auto; } .missed { margin-top: 2.5rem; } }
+.site-footer .powered { display: inline-block; margin-left: 0.4rem; }
+.site-footer .powered a { font-family: var(--brush); font-size: 1.25rem; color: var(--amber); }
+.site-footer .powered a:hover { color: #fff; }
