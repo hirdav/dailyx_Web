@@ -69,7 +69,46 @@
             <p style="margin-top:1rem"><a class="btn small" href="mailto:support@edantraeducation.com">support@edantraeducation.com</a></p>
           </article>
         </div>
-        <p class="sample" style="margin-top:2.4rem">Looking for how we handle your data? Read the <a href="privacy.html">Privacy Policy</a>.</p>
+        <p class="sample" style="margin-top:2.4rem">Looking for how we handle your data? Read the <a href="privacy.html">Privacy Policy</a>. Want to leave? <a href="#delete-account">Delete your account</a>.</p>
+      </div>
+    </section>
+
+    <!-- Delete account -->
+    <section class="section tint torn-top torn-bottom" id="delete-account">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Leaving us?</span>
+          <h2 class="paint in">Delete your <span class="swash lilac">account</span></h2>
+          <p>We're sorry to see you go. Tell us the email address of your DailyX account and we'll delete the account and everything in it.</p>
+        </div>
+
+        <div class="form-card reveal">
+          <form id="delete-form" novalidate>
+            <label class="field" for="del-email">Your DailyX account email</label>
+            <input id="del-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
+            <p class="field-error" id="del-error" role="alert" hidden></p>
+
+            <label class="check">
+              <input id="del-confirm" type="checkbox" required />
+              <span>I understand this permanently deletes my tasks, journal entries, history and statistics, and it can't be undone.</span>
+            </label>
+
+            <button class="btn" type="submit">Request deletion</button>
+          </form>
+
+          <div class="form-done" id="del-done" hidden aria-live="polite">
+            <h3>Almost done — send the email</h3>
+            <p>Your email app should have opened with your request ready, addressed to <strong>connect@edantraeducation.com</strong>. Press <strong>Send</strong> to complete it. Send it from the address you signed up with, so we can match it to your account.</p>
+            <p class="small">Nothing opened? <button type="button" class="linkish" id="del-copy">Copy the request</button> and paste it into an email to <a href="mailto:connect@edantraeducation.com">connect@edantraeducation.com</a>.</p>
+            <button class="btn ghost small" type="button" id="del-again">Start over</button>
+          </div>
+
+          <ul class="bullets" style="margin-top:1.6rem">
+            <li data-check><span>We reply to confirm, then delete the account and its data.</span></li>
+            <li data-check><span>Want a copy first? Export your journal from the app before you ask.</span></li>
+            <li data-check><span>Details are in the <a href="privacy.html">Privacy Policy</a>.</span></li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
@@ -91,5 +130,35 @@
 
   <script src="assets/brush.js"></script>
   <script src="assets/site.js"></script>
+  <script>
+  (function () {
+    var form = document.getElementById('delete-form'); if (!form) return;
+    var email = document.getElementById('del-email'), box = document.getElementById('del-confirm');
+    var err = document.getElementById('del-error'), done = document.getElementById('del-done');
+    var TO = 'connect@edantraeducation.com', SUBJECT = 'DailyX account deletion request';
+    var text = '';
+    function body(addr) {
+      return 'Please delete my DailyX account and all of its data.\n\nAccount email: ' + addr +
+        '\nI understand this is permanent.\nRequested on: ' + new Date().toISOString().slice(0, 10) + '\n';
+    }
+    function fail(msg, el) { err.textContent = msg; err.hidden = false; el.focus(); }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); err.hidden = true;
+      var addr = email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(addr)) return fail('Please enter the email address you signed up with.', email);
+      if (!box.checked) return fail('Please tick the box to confirm.', box);
+      text = body(addr);
+      form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      window.location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(SUBJECT) + '&body=' + encodeURIComponent(text);
+    });
+    document.getElementById('del-copy').addEventListener('click', function () {
+      var t = 'To: ' + TO + '\nSubject: ' + SUBJECT + '\n\n' + text, b = this;
+      var ok = function () { b.textContent = 'Copied!'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, function () { window.prompt('Copy this request:', t); });
+      else window.prompt('Copy this request:', t);
+    });
+    document.getElementById('del-again').addEventListener('click', function () { done.hidden = true; form.hidden = false; form.reset(); email.focus(); });
+  })();
+  </script>
 </body>
 </html>
